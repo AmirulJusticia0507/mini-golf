@@ -1,4 +1,4 @@
-# ⛳ Mini Golf Web Game
+# ⛳ Mini Golf — Forest Course
 
 Game Mini Golf sederhana dan interaktif yang dibangun hanya menggunakan teknologi web standar (**HTML5, CSS3, dan Plain JavaScript**). Proyek ini dirancang tanpa *dependency* atau *library* pihak ketiga sehingga sangat ringan dan mudah dikembangkan.
 
@@ -26,26 +26,32 @@ Game Mini Golf sederhana dan interaktif yang dibangun hanya menggunakan teknolog
 ## 📂 Struktur Proyek
 
 ```text
-mini-golf-game/
+mini-golf/
 │
-├── index.html          # Struktur utama & elemen Canvas
-├── style.css           # Styling tampilan & UI overlay
-├── script.js           # Engine game, fisika, dan kontrol
-└── README.md           # Dokumentasi proyek
+├── index.html                    # Struktur halaman dan Canvas
+├── style.css                     # Visual, layout, dan responsive UI
+├── LICENSE                       # Lisensi MIT
+├── js/
+│   ├── main.js                   # Entry point
+│   ├── config.js                 # Konfigurasi global game
+│   ├── core/game.js              # Orkestrasi state dan game loop
+│   ├── components/input.js       # Pointer/touch dan mekanisme drag
+│   ├── components/physics.js     # Gerak, gesekan, dan collision
+│   ├── components/renderer.js    # Semua rendering Canvas
+│   ├── components/ui.js          # Sinkronisasi DOM dan skor
+│   ├── data/levels.js            # Konfigurasi tiga hole
+│   └── utils/vector.js           # Operasi matematika vektor
+└── readme.md                     # Dokumentasi proyek
 ```
 
 ---
 
 ## 🎮 Cara Menjalankan
 
-1. **Clone atau Unduh Repository**
-   ```bash
-   git clone https://github.com/username/mini-golf-game.git
-   ```
-2. **Buka Proyek**
-   - Masuk ke direktori proyek.
-   - Buka berkas `index.html` langsung di browser favoritmu (Chrome, Firefox, Edge, Safari, dll).
-   - *Atau* gunakan extension **Live Server** di Visual Studio Code untuk pengalaman pengujian yang lebih baik.
+1. Jalankan Laragon dan pastikan folder proyek berada di `C:\laragon\www\mini-golf`.
+2. Buka `http://localhost/mini-golf/` dari browser modern.
+
+> Game memakai JavaScript ES Modules, jadi jalankan melalui web server (Laragon, Live Server, atau server lokal lain), bukan dengan membuka `index.html` melalui `file://`.
 
 ---
 
@@ -60,9 +66,9 @@ mini-golf-game/
 
 ## 🚧 Rencana Pengembangan (Roadmap)
 
-- [ ] Penambahan berbagai jenis rintangan baru (kincir angin, pasir/hazard, air).
-- [ ] Fitur *Multi-level / Multi-hole*.
-- [ ] Efek suara (SFX) saat memukul bola dan saat bola masuk lubang.
+- [x] Rintangan dan area pasir.
+- [x] Fitur *Multi-level / Multi-hole* (3 hole).
+- [x] Efek suara sederhana saat memukul bola dan saat bola masuk lubang.
 - [ ] Fitur menyimpan *High Score* menggunakan `localStorage`.
 
 ---
