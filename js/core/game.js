@@ -4,6 +4,7 @@ import { InputController } from "../components/input.js";
 import { PhysicsEngine } from "../components/physics.js";
 import { Renderer } from "../components/renderer.js";
 import { GameUI } from "../components/ui.js";
+import { SoundManager } from "../components/sound.js";
 
 export class MiniGolfGame {
   constructor(canvas) {
@@ -12,6 +13,8 @@ export class MiniGolfGame {
     this.physics = new PhysicsEngine();
     this.input = new InputController(canvas, CONFIG.maxPull);
     this.ui = new GameUI();
+    this.sound = new SoundManager();
+    this.sound.setEnabled(true);
     this.levelIndex = 0; this.scores = []; this.lastTime = 0; this.accumulator = 0; this.finished = false; this.soundOn = true;
     this.input.onRelease = (shot) => this.shoot(shot);
     this.ui.restartButton.addEventListener("click", () => this.loadLevel(this.levelIndex));
@@ -30,7 +33,7 @@ export class MiniGolfGame {
   shoot(shot) {
     if (!this.canAim()) return;
     this.ball.vx = shot.vector.x * CONFIG.powerScale; this.ball.vy = shot.vector.y * CONFIG.powerScale;
-    this.strokes += 1; this.ui.updateScore(this.levelIndex, LEVELS.length, this.level.par, this.strokes); this.ui.hidePower(); this.ui.setStatus("Bola bergerak"); this.beep(170, .035);
+    this.strokes += 1; this.ui.updateScore(this.levelIndex, LEVELS.length, this.level.par, this.strokes); this.ui.hidePower(); this.ui.setStatus("Bola bergerak"); this.sound.shoot();
   }
 
   canAim() { return !this.finished && this.ball.vx === 0 && this.ball.vy === 0; }
@@ -46,8 +49,10 @@ export class MiniGolfGame {
 
   completeHole() {
     this.finished = true; this.ball.vx = this.ball.vy = 0; this.ball.x = this.level.hole.x; this.ball.y = this.level.hole.y;
-    this.scores[this.levelIndex] = this.strokes; this.ui.setStatus("Masuk!"); this.beep(520, .13);
-    setTimeout(() => this.ui.showResult({ final: this.levelIndex === LEVELS.length-1, strokes: this.strokes, par: this.level.par, total: this.scores.reduce((a,b) => a+b, 0) }), 450);
+    this.scores[this.levelIndex] = this.strokes; this.ui.setStatus("Masuk!"); this.sound.hole();
+    const final = this.levelIndex === LEVELS.length - 1;
+    if (final) setTimeout(() => this.sound.courseComplete(), 500); else setTimeout(() => this.sound.holeComplete(), 460);
+    setTimeout(() => this.ui.showResult({ final, strokes: this.strokes, par: this.level.par, total: this.scores.reduce((a, b) => a + b, 0) }), 450);
   }
 
   nextLevel() {
@@ -55,14 +60,7 @@ export class MiniGolfGame {
     else this.loadLevel(this.levelIndex + 1);
   }
 
-  toggleSound() { this.soundOn = !this.soundOn; this.ui.soundButton.textContent = this.soundOn ? "♪" : "×"; }
-  beep(frequency, duration) {
-    if (!this.soundOn) return;
-    const AudioContext = window.AudioContext || window.webkitAudioContext; if (!AudioContext) return;
-    this.audio ||= new AudioContext(); const osc = this.audio.createOscillator(), gain = this.audio.createGain();
-    osc.frequency.value = frequency; gain.gain.setValueAtTime(.06, this.audio.currentTime); gain.gain.exponentialRampToValueAtTime(.001, this.audio.currentTime + duration);
-    osc.connect(gain).connect(this.audio.destination); osc.start(); osc.stop(this.audio.currentTime + duration);
-  }
+  toggleSound() { this.soundOn = !this.soundOn; this.sound.setEnabled(this.soundOn); this.ui.soundButton.textContent = this.soundOn ? "♪" : "×"; this.sound.ui(); }
 
   frame = (time) => {
     const frameTime = Math.min((time - this.lastTime) / 1000 || 0, CONFIG.maxFrame); this.lastTime = time; this.accumulator += frameTime;

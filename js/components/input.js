@@ -6,7 +6,10 @@ export class InputController {
     this.maxPull = maxPull;
     this.dragging = false;
     this.pointer = null;
+    this.ball = null;
+    this.canAim = true;
     this.onRelease = null;
+
     canvas.addEventListener("pointerdown", (event) => this.start(event));
     canvas.addEventListener("pointermove", (event) => this.move(event));
     canvas.addEventListener("pointerup", (event) => this.end(event));
@@ -22,7 +25,8 @@ export class InputController {
   }
 
   start(event) {
-    if (!this.canAim || distance(this.toCanvasPoint(event), this.ball) > 44) return;
+    if (!this.canAim) return;
+    if (distance(this.toCanvasPoint(event), this.ball) > 44) return;
     this.dragging = true;
     this.pointer = this.toCanvasPoint(event);
     this.canvas.setPointerCapture(event.pointerId);
@@ -41,7 +45,8 @@ export class InputController {
   }
 
   getShot() {
-    const delta = subtract(this.ball, this.pointer || this.ball);
+    const target = this.pointer || this.ball;
+    const delta = subtract(this.ball, target);
     const rawPower = Math.hypot(delta.x, delta.y);
     const power = clamp(rawPower, 0, this.maxPull);
     const ratio = rawPower ? power / rawPower : 0;
