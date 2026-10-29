@@ -89,15 +89,30 @@ footer { padding: 16px 20px 24px; color: #63746b; display: flex; justify-content
 footer span { color: #9bac9f; } footer i { width: 3px; height: 3px; border-radius: 50%; background: #53645b; }
 
 @media (max-width: 780px) {
-  .topbar { height: 64px; }
-  .text-button { display: none; }
-  .game-layout { grid-template-columns: 1fr; padding: 18px; gap: 18px; }
-  .score-card { display: grid; grid-template-columns: 1fr auto; align-items: end; }
-  .score-card .eyebrow, .tip, .progress-label, .progress-track { display: none; }
-  .hole-heading strong { font-size: 44px; }
-  .score-grid { margin: 0; border: 0; }
-  .score-grid div { padding: 0 14px; }
-  .score-grid div + div { padding-left: 14px; }
-  .score-grid strong { font-size: 22px; }
-  canvas, .modal { border-radius: 20px; }
+  body { overflow-x: hidden; }
+  .topbar { height: 64px; padding: 0 14px; }
+  .brand { font-size: 15px; }
+  .brand-mark { width: 34px; height: 34px; border-radius: 10px 10px 10px 3px; font-size: 18px; }
+  .topbar-actions { gap: 8px; }
+  .icon-button, .text-button { height: 36px; }
+  .icon-button { width: 36px; }
+  .text-button { display: inline-flex; align-items: center; padding: 0 14px; font-size: 13px; }
+  .game-layout { grid-template-columns: 1fr; padding: 14px; gap: 12px; }
+  .score-card { display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: "hole strokes" "stats stats"; gap: 10px 12px; align-items: center; }
+  .score-card .eyebrow { display: none; }
+  .hole-heading { grid-area: hole; gap: 8px; font-size: 16px; }
+  .hole-heading strong { font-size: 38px; }
+  .score-card .score-grid:nth-of-type(2) { display: none; }
+  .score-card .score-grid:nth-of-type(3) { grid-area: strokes; margin: 0; border: 0; justify-self: end; }
+  .score-grid { grid-area: stats; margin: 0; border: 1px solid var(--line); border-radius: 14px; }
+  .score-grid div { padding: 10px 12px; }
+  .score-grid div + div { padding-left: 12px; }
+  .score-grid strong { font-size: 20px; }
+  .tip, .progress-label, .progress-track { display: none; }
+  canvas, .modal { border-radius: 16px; }
+  .status-pill { top: 10px; font-size: 11px; padding: 6px 12px; }
+  .power-meter { bottom: 12px; padding: 6px 10px; gap: 8px; }
+  .power-meter div { width: 100px; height: 4px; }
+  .modal-card { width: calc(100% - 24px); padding: 26px 20px; border-radius: 18px; }
+  footer { padding: 10px 16px 18px; font-size: 10px; }
 }
