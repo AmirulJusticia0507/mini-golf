@@ -27,4 +27,23 @@ export const LEVELS = [
     sand: [{ x: 378, y: 175, rx: 108, ry: 56, rotation: -.25 }],
     trees: [{x:68,y:90},{x:100,y:116},{x:884,y:500},{x:760,y:495}],
   },
+  {
+    name: "Willow Bend", par: 3, start: { x: 120, y: 500 }, hole: { x: 840, y: 120, radius: 18 },
+    obstacles: [
+      { x: 300, y: 200, width: 200, height: 36, radius: 16 },
+      { x: 600, y: 360, width: 38, height: 180, radius: 16 },
+    ],
+    sand: [{ x: 450, y: 420, rx: 110, ry: 50, rotation: .15 }, { x: 760, y: 260, rx: 70, ry: 40, rotation: -.3 }],
+    trees: [{x:90,y:100},{x:160,y:95},{x:880,y:480},{x:830,y:510},{x:400,y:80}],
+  },
+  {
+    name: "Sand Trap", par: 4, start: { x: 100, y: 120 }, hole: { x: 820, y: 480, radius: 18 },
+    obstacles: [
+      { x: 240, y: 260, width: 38, height: 220, radius: 16 },
+      { x: 470, y: 150, width: 180, height: 38, radius: 16 },
+      { x: 700, y: 320, width: 38, height: 160, radius: 16 },
+    ],
+    sand: [{ x: 360, y: 470, rx: 130, ry: 60, rotation: -.1 }],
+    trees: [{x:75,y:500},{x:890,y:95},{x:860,y:120},{x:600,y:500}],
+  },
 ];

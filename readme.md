@@ -39,7 +39,7 @@ mini-golf/
 │   ├── components/physics.js     # Gerak, gesekan, dan collision
 │   ├── components/renderer.js    # Semua rendering Canvas
 │   ├── components/ui.js          # Sinkronisasi DOM dan skor
-│   ├── data/levels.js            # Konfigurasi tiga hole
+│   ├── data/levels.js            # Konfigurasi hole
 │   └── utils/vector.js           # Operasi matematika vektor
 └── readme.md                     # Dokumentasi proyek
 ```
@@ -67,7 +67,7 @@ mini-golf/
 ## 🚧 Rencana Pengembangan (Roadmap)
 
 - [x] Rintangan dan area pasir.
-- [x] Fitur *Multi-level / Multi-hole* (3 hole).
+- [x] Fitur *Multi-level / Multi-hole* (5 hole).
 - [x] Efek suara sederhana saat memukul bola dan saat bola masuk lubang.
 - [ ] Fitur menyimpan *High Score* menggunakan `localStorage`.
 
