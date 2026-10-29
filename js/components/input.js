@@ -10,10 +10,15 @@ export class InputController {
     this.canAim = true;
     this.onRelease = null;
 
-    canvas.addEventListener("pointerdown", (event) => this.start(event));
-    canvas.addEventListener("pointermove", (event) => this.move(event));
-    canvas.addEventListener("pointerup", (event) => this.end(event));
-    canvas.addEventListener("pointercancel", (event) => this.end(event));
+    if (this.canvas) {
+      this.canvas.style.touchAction = "none";
+      this.canvas.addEventListener("pointerdown", (event) => this.start(event), { passive: false });
+      this.canvas.addEventListener("pointermove", (event) => this.move(event), { passive: false });
+      this.canvas.addEventListener("pointerup", (event) => this.end(event), { passive: false });
+      this.canvas.addEventListener("pointercancel", (event) => this.end(event), { passive: false });
+      this.canvas.addEventListener("touchstart", (event) => event.preventDefault(), { passive: false });
+      this.canvas.addEventListener("touchmove", (event) => event.preventDefault(), { passive: false });
+    }
   }
 
   toCanvasPoint(event) {
@@ -26,21 +31,28 @@ export class InputController {
 
   start(event) {
     if (!this.canAim) return;
-    if (distance(this.toCanvasPoint(event), this.ball) > 44) return;
+    event.preventDefault();
+    const point = this.toCanvasPoint(event);
+    if (!this.ball || distance(point, this.ball) > 56) return;
     this.dragging = true;
-    this.pointer = this.toCanvasPoint(event);
-    this.canvas.setPointerCapture(event.pointerId);
+    this.pointer = point;
+    try { this.canvas.setPointerCapture(event.pointerId); } catch (e) {}
   }
 
   move(event) {
-    if (this.dragging) this.pointer = this.toCanvasPoint(event);
+    if (this.dragging) {
+      event.preventDefault();
+      this.pointer = this.toCanvasPoint(event);
+    }
   }
 
   end(event) {
     if (!this.dragging) return;
+    event.preventDefault();
     this.pointer = this.toCanvasPoint(event);
     const shot = this.getShot();
     this.dragging = false;
+    try { this.canvas.releasePointerCapture(event.pointerId); } catch (e) {}
     if (shot.power > 4) this.onRelease?.(shot);
   }
 
