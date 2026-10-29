@@ -9,16 +9,7 @@ export class PhysicsEngine {
     this.resolveBounds(ball);
     level.obstacles.forEach((obstacle) => this.resolveObstacle(ball, obstacle));
 
-    const inSand = level.sand.some((patch) => {
-      const cos = Math.cos(-patch.rotation);
-      const sin = Math.sin(-patch.rotation);
-      const dx = ball.x - patch.x;
-      const dy = ball.y - patch.y;
-      const x = dx * cos - dy * sin;
-      const y = dx * sin + dy * cos;
-      return (x * x) / (patch.rx * patch.rx) + (y * y) / (patch.ry * patch.ry) < 1;
-    });
-
+    const inSand = isInSand(ball, level);
     const friction = Math.pow(inSand ? CONFIG.sandFriction : CONFIG.friction, dt * 60);
     ball.vx *= friction;
     ball.vy *= friction;
@@ -28,11 +19,11 @@ export class PhysicsEngine {
       ball.vy = 0;
     }
 
-    return distance(ball, level.hole) < level.hole.radius - 2 && Math.hypot(ball.vx, ball.vy) < 95;
+    return distance(ball, level.hole) < level.hole.radius - 2 && Math.hypot(ball.vx, ball.vy) < CONFIG.captureSpeed;
   }
 
   resolveBounds(ball) {
-    const margin = 34;
+    const margin = CONFIG.margin;
     if (ball.x - ball.radius < margin) {
       ball.x = margin + ball.radius;
       ball.vx = Math.abs(ball.vx) * CONFIG.restitution;
@@ -73,4 +64,16 @@ export class PhysicsEngine {
       ball.vy -= (1 + CONFIG.restitution) * velocityAlongNormal * ny;
     }
   }
+}
+
+export function isInSand(ball, level) {
+  return level.sand.some((patch) => {
+    const cos = Math.cos(-patch.rotation);
+    const sin = Math.sin(-patch.rotation);
+    const dx = ball.x - patch.x;
+    const dy = ball.y - patch.y;
+    const x = dx * cos - dy * sin;
+    const y = dx * sin + dy * cos;
+    return (x * x) / (patch.rx * patch.rx) + (y * y) / (patch.ry * patch.ry) < 1;
+  });
 }

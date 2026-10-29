@@ -1,20 +1,32 @@
 export class GameUI {
   constructor() {
-    const ids = ["holeNumber","parValue","strokeValue","progressText","progressBar","statusPill","powerMeter","powerFill","resultModal","resultEyebrow","resultTitle","resultSummary","nextButton","restartButton","soundButton"];
+    const ids = [
+      "holeNumber", "holeName", "parValue", "strokeValue", "highScoreValue", "highScoreHoleValue",
+      "progressText", "progressBar", "statusPill", "powerMeter", "powerFill", "resultModal",
+      "resultEyebrow", "resultTitle", "resultSummary", "nextButton", "restartButton", "soundButton",
+      "hudRight", "hudLeft",
+    ];
     ids.forEach((id) => { this[id] = document.getElementById(id); });
   }
 
-  updateScore(index, total, par, strokes) {
+  updateScore(index, total, par, strokes, name) {
     const progress = Math.round((index / total) * 100);
     this.holeNumber.textContent = index + 1;
+    if (this.holeName) this.holeName.textContent = name || "";
     this.parValue.textContent = par;
     this.strokeValue.textContent = strokes;
     this.progressText.textContent = `${progress}%`;
     this.progressBar.style.width = `${progress}%`;
   }
 
+  updateHighScores(courseBest, holeBest) {
+    if (this.highScoreValue) this.highScoreValue.textContent = courseBest ?? "-";
+    if (this.highScoreHoleValue) this.highScoreHoleValue.textContent = holeBest ?? "-";
+  }
+
   setStatus(text) {
     this.statusPill.textContent = text;
+    this.statusPill.classList.toggle("is-active", text === "Masuk!");
   }
 
   setPower(power, max) {
@@ -24,6 +36,11 @@ export class GameUI {
 
   hidePower() {
     this.powerMeter.classList.remove("active");
+  }
+
+  showAwning(show) {
+    this.hudLeft?.classList.toggle("is-armed", show);
+    this.hudRight?.classList.toggle("is-armed", show);
   }
 
   showResult({ final, strokes, par, total }) {

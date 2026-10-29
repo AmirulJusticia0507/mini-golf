@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#101b18">
-  <title>Mini Golf — Forest Course</title>
+  <meta name="description" content="Mini Golf 3D — Forest Course, diorama golf interaktif dengan HTML5 Canvas.">
+  <title>Mini Golf 3D — Forest Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
@@ -15,7 +16,7 @@
     <header class="topbar">
       <a class="brand" href="#" aria-label="Mini Golf home">
         <span class="brand-mark" aria-hidden="true">⛳</span>
-        <span>MINI <strong>GOLF</strong></span>
+        <span>MINI <strong>GOLF</strong><em class="brand-badge">3D</em></span>
       </a>
       <div class="topbar-actions">
         <button class="icon-button" id="soundButton" type="button" aria-label="Nyalakan atau matikan suara">♪</button>
@@ -31,6 +32,7 @@
           <strong id="holeNumber">1</strong>
           <span class="hole-total">/ 3</span>
         </div>
+        <p class="hole-name" id="holeName">Pine Bend</p>
         <div class="score-grid">
           <div><span>PAR</span><strong id="parValue">3</strong></div>
           <div><span>STROKES</span><strong id="strokeValue">0</strong></div>
@@ -45,19 +47,25 @@
       </aside>
 
       <div class="game-stage" id="gameStage">
-        <canvas id="gameCanvas" width="960" height="600" aria-label="Lapangan mini golf"></canvas>
-        <div class="status-pill" id="statusPill" aria-live="polite">Giliranmu</div>
-        <div class="power-meter" id="powerMeter" aria-hidden="true">
-          <span>POWER</span><div><i id="powerFill"></i></div>
-        </div>
-        <section class="modal" id="resultModal" hidden>
-          <div class="modal-card">
-            <p class="eyebrow" id="resultEyebrow">Hole selesai</p>
-            <h1 id="resultTitle">Nice shot!</h1>
-            <p id="resultSummary"></p>
-            <button class="primary-button" id="nextButton" type="button">Hole berikutnya →</button>
+        <div class="stage-awning stage-awning--left" id="hudLeft" aria-hidden="true"><span></span></div>
+        <div class="stage-awning stage-awning--right" id="hudRight" aria-hidden="true"><span></span></div>
+        <div class="stage-frame">
+          <div class="canvas-holder">
+            <canvas id="gameCanvas" width="960" height="600" aria-label="Lapangan mini golf 3D"></canvas>
           </div>
-        </section>
+          <div class="status-pill" id="statusPill" aria-live="polite">Giliranmu</div>
+          <div class="power-meter" id="powerMeter" aria-hidden="true">
+            <span>POWER</span><div><i id="powerFill"></i></div>
+          </div>
+          <section class="modal" id="resultModal" hidden>
+            <div class="modal-card">
+              <p class="eyebrow" id="resultEyebrow">Hole selesai</p>
+              <h1 id="resultTitle">Nice shot!</h1>
+              <p id="resultSummary"></p>
+              <button class="primary-button" id="nextButton" type="button">Hole berikutnya →</button>
+            </div>
+          </section>
+        </div>
       </div>
     </section>
 
